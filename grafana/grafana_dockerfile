@@ -1,0 +1,10 @@
+FROM ubuntu:20.04
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update
+RUN apt-get upgrade -y
+RUN apt install sudo wget python gnupg -y
+RUN echo "deb https://packages.grafana.com/oss/deb stable main" > /etc/apt/sources.list.d/grafana.list
+RUN wget -q -O - https://packages.grafana.com/gpg.key | sudo apt-key add -
+RUN apt update
+RUN apt install grafana -y
+ENTRYPOINT service grafana-server start

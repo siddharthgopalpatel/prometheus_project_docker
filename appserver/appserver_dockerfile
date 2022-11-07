@@ -1,0 +1,13 @@
+FROM ubuntu:20.04
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update
+RUN apt-get upgrade -y
+RUN apt-get -y install gnupg
+RUN apt-get -y install curl tcpdump telnet iputils-ping sudo wget vim net-tools
+RUN wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
+RUN apt-get -y install apt-transport-https
+RUN echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee  /etc/apt/sources.list.d/elastic-7.x.list
+RUN apt-get update
+RUN apt-get -y install auditbeat -y
+COPY auditbeat.yml /etc/auditbeat/auditbeat.yml 
+#ENTRYPOINT sudo service auditbeat restart && bash
